@@ -1,3 +1,4 @@
+import { CommonModule } from '@angular/common';
 import { Component, Input } from '@angular/core';
 
 @Component({
@@ -10,7 +11,8 @@ import { Component, Input } from '@angular/core';
       <p><strong>Homeworld:</strong> {{ character.homeworld }}</p>
     </div>
   `,
-  standalone: true
+  standalone: true,
+  imports: [CommonModule]
 })
 export class CharacterDetailsComponent {
   @Input() character: any;
