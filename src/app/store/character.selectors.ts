@@ -10,7 +10,7 @@ export const selectAllCharacters = createSelector(
 
 export const selectFilteredCharacters = createSelector(
   selectCharacterState,
-  (state: CharacterState) => state.filteredCharacters || []
+  (state: CharacterState) => state.filteredCharacters
 );
 
 export const selectLoading = createSelector(

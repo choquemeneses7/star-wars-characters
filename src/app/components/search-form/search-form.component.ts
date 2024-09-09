@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Output } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { Store } from '@ngrx/store';
 import { searchCharacters } from '../../store/character.actions';
@@ -24,7 +24,7 @@ import { searchCharacters } from '../../store/character.actions';
   standalone: true,
   imports: [ReactiveFormsModule]
 })
-export class SearchFormComponent {
+export class SearchFormComponent implements OnInit {
   searchForm = new FormGroup({
     name: new FormControl(''),
     gender: new FormControl('')
@@ -32,8 +32,16 @@ export class SearchFormComponent {
 
   constructor(private store: Store) {}
 
+  ngOnInit() {
+    const savedFilters = localStorage.getItem('searchFilters');
+    if (savedFilters) {
+      this.searchForm.setValue(JSON.parse(savedFilters));
+    }
+  }
+
   onSubmit() {
     const { name, gender } = this.searchForm.value;
     this.store.dispatch(searchCharacters({ searchTerm: name || "", gender: gender || "" }));
+    localStorage.setItem('searchFilters', JSON.stringify(this.searchForm.value));
   }
 }

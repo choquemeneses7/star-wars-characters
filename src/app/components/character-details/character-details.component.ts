@@ -2,6 +2,7 @@ import { CommonModule } from '@angular/common';
 import { Component, Input, OnChanges, SimpleChanges } from '@angular/core';
 import { Character } from '../../models/characters';
 
+
 @Component({
   selector: 'app-character-details',
   template: `
@@ -18,6 +19,7 @@ import { Character } from '../../models/characters';
     </div>
   `,
   standalone: true,
+  styleUrls: ['./character-details.component.css'],
   imports: [CommonModule]
 })
 export class CharacterDetailsComponent implements OnChanges {

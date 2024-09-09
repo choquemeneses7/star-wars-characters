@@ -3,18 +3,22 @@ import { loadCharacters, loadCharactersSuccess, loadCharactersFailure, filterCha
 import { Character } from '../models/characters';
 
 export interface CharacterState {
-  characters: Character[];
-  filteredCharacters: Character[];
-  loading: boolean;
-  error: string | null;
-}
+    characters: Character[];
+    filteredCharacters: Character[];
+    searchTerm: string;
+    gender: string;
+    loading: boolean;
+    error: string | null;
+  }
 
-export const initialState: CharacterState = {
-  characters: [],
-  filteredCharacters: [],
-  loading: false,
-  error: null
-};
+  export const initialState: CharacterState = {
+    characters: [],
+    filteredCharacters: [],
+    searchTerm: '',
+    gender: '',
+    loading: false,
+    error: null
+  };
 
 export const characterReducer = createReducer(
   initialState,
@@ -31,11 +35,21 @@ export const characterReducer = createReducer(
     loading: false
   })),
   on(filterCharacters, (state, { searchTerm, gender }) => {
-    const filtered = Array.isArray(state.characters) ? state.characters.filter(character => 
-      (searchTerm ? character.name.includes(searchTerm) : true) &&
-      (gender ? character.gender === gender : true)
-    ) : [];
-    
-    return { ...state, filteredCharacters: filtered };
+    let filtered = state.characters;
+
+    if (searchTerm) {
+      filtered = filtered.filter(character => character.name.toLowerCase().includes(searchTerm.toLowerCase()));
+    }
+
+    if (gender) {
+      filtered = filtered.filter(character => character.gender === gender);
+    }
+
+    return {
+      ...state,
+      searchTerm: searchTerm || state.searchTerm,
+      gender: gender || state.gender,
+      filteredCharacters: filtered
+    };
   })
 );

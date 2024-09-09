@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { SearchFormComponent } from './components/search-form/search-form.component';
 import { CharacterDetailsComponent } from './components/character-details/character-details.component';
@@ -8,7 +8,7 @@ import { CommonModule } from '@angular/common';
 import { Observable } from 'rxjs';
 import { Store } from '@ngrx/store';
 import { Character } from './models/characters';
-import { loadCharacters, filterCharacters } from './store/character.actions';
+import { loadCharacters, filterCharacters, searchCharacters } from './store/character.actions';
 import { selectFilteredCharacters, selectLoading, selectError } from './store/character.selectors';
 import { FavoritesService } from './services/favorites.service';
 
@@ -19,7 +19,7 @@ import { FavoritesService } from './services/favorites.service';
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css']
 })
-export class AppComponent {
+export class AppComponent implements OnInit {
   title = 'star-wars-character-search';
   characters$: Observable<Character[]>;
   loading$: Observable<boolean>;
@@ -34,15 +34,23 @@ export class AppComponent {
 
   ngOnInit() {
     this.store.dispatch(loadCharacters());
+    const savedFilters = localStorage.getItem('searchFilters');
+    if (savedFilters) {
+      const { name, gender } = JSON.parse(savedFilters);
+      console.log("savedFilters: ", savedFilters)
+      this.store.dispatch(searchCharacters({ searchTerm: name, gender }));
+    }
   }
 
   onSearch(event: Event) {
     const searchTerm = (event.target as HTMLInputElement).value;
     this.store.dispatch(filterCharacters({ searchTerm }));
+    localStorage.setItem('searchFilters', JSON.stringify({ searchTerm }));
   }
 
   onFilter(filterOptions: any) {
-    this.store.dispatch(filterCharacters({ gender: filterOptions.gender }));
+    this.store.dispatch(filterCharacters(filterOptions));
+    localStorage.setItem('searchFilters', JSON.stringify(filterOptions));
   }
 
   onSelectCharacter(character: Character) {
