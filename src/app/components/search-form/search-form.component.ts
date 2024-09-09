@@ -1,5 +1,7 @@
 import { Component, EventEmitter, Output } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
+import { Store } from '@ngrx/store';
+import { searchCharacters } from '../../store/character.actions';
 
 @Component({
   selector: 'app-search-form',
@@ -23,17 +25,15 @@ import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
   imports: [ReactiveFormsModule]
 })
 export class SearchFormComponent {
-  @Output() search = new EventEmitter<string>();
-  @Output() filter = new EventEmitter<any>();
-
   searchForm = new FormGroup({
     name: new FormControl(''),
     gender: new FormControl('')
   });
 
+  constructor(private store: Store) {}
+
   onSubmit() {
     const { name, gender } = this.searchForm.value;
-    this.search.emit(name || "");
-    this.filter.emit({ gender });
+    this.store.dispatch(searchCharacters({ searchTerm: name || "", gender: gender || "" }));
   }
 }
