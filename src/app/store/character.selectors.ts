@@ -26,5 +26,5 @@ export const selectError = createSelector(
 export const getCharacterById = createSelector(
   selectCharacterState,
   (state: CharacterState, props: { id: string }) => 
-    state.characters.find(character => character.url.endsWith(props.id))
+    state.characters.find(character => character.url?.endsWith(props.id))
 );

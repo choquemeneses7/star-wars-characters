@@ -38,7 +38,7 @@ export const characterReducer = createReducer(
     let filtered = state.characters;
 
     if (searchTerm) {
-      filtered = filtered.filter(character => character.name.toLowerCase().includes(searchTerm.toLowerCase()));
+      filtered = filtered.filter(character => character.name?.toLowerCase().includes(searchTerm.toLowerCase()));
     }
 
     if (gender) {

@@ -1,26 +1,69 @@
 import { CommonModule } from '@angular/common';
 import { Component, Input, OnChanges, SimpleChanges } from '@angular/core';
 import { Character } from '../../models/characters';
-
+import { MatCardModule } from '@angular/material/card';
+import { MatDividerModule } from '@angular/material/divider';
 
 @Component({
   selector: 'app-character-details',
   template: `
-    <div *ngIf="character" [ngClass]="{'hero-style': isHeroOrVillain, 'villain-style': !isHeroOrVillain}">
-      <h2>{{ character.name }}</h2>
-      <p>Height: {{ character.height }}</p>
-      <p>Mass: {{ character.mass }}</p>
-      <p>Hair Color: {{ character.hair_color }}</p>
-      <p>Skin Color: {{ character.skin_color }}</p>
-      <p>Eye Color: {{ character.eye_color }}</p>
-      <p>Birth Year: {{ character.birth_year }}</p>
-      <p>Gender: {{ character.gender }}</p>
-      <p>Homeworld: {{ character.homeworld }}</p>
-    </div>
+    <div #detailsContainer id="character-details" class="character-details-container">
+      <mat-card *ngIf="character" [ngClass]="{'hero-style': isHeroOrVillain, 'villain-style': !isHeroOrVillain}">
+        <mat-card-header>
+          <mat-card-title>{{ character.name }}</mat-card-title>
+        </mat-card-header>
+
+        <mat-card-content>
+          <p><strong>Height:</strong> {{ character.height }} cm</p>
+          <mat-divider></mat-divider>
+          <p><strong>Mass:</strong> {{ character.mass }} kg</p>
+          <mat-divider></mat-divider>
+          <p><strong>Hair Color:</strong> {{ character.hair_color }}</p>
+          <mat-divider></mat-divider>
+          <p><strong>Skin Color:</strong> {{ character.skin_color }}</p>
+          <mat-divider></mat-divider>
+          <p><strong>Eye Color:</strong> {{ character.eye_color }}</p>
+          <mat-divider></mat-divider>
+          <p><strong>Birth Year:</strong> {{ character.birth_year }}</p>
+          <mat-divider></mat-divider>
+          <p><strong>Gender:</strong> {{ character.gender }}</p>
+          <mat-divider></mat-divider>
+          <p><strong>Homeworld:</strong> {{ character.homeworld }}</p>
+        </mat-card-content>
+      </mat-card>
+    <div #detailsContainer class="character-details-container">
   `,
   standalone: true,
-  styleUrls: ['./character-details.component.css'],
-  imports: [CommonModule]
+  styles: [`
+    .hero-style {
+      background-color: #e0f7fa;
+      border-left: 4px solid #0288d1;
+    }
+
+    .villain-style {
+      background-color: #ffebee;
+      border-left: 4px solid #d32f2f;
+    }
+
+    mat-card {
+      margin: 20px;
+      padding: 16px;
+    }
+
+    mat-card-title {
+      font-size: 1.8rem;
+      font-weight: bold;
+    }
+
+    p {
+      margin: 8px 0;
+    }
+
+    mat-divider {
+      margin: 8px 0;
+    }
+  `],
+  imports: [CommonModule, MatCardModule, MatDividerModule]
 })
 export class CharacterDetailsComponent implements OnChanges {
   @Input() character: Character | null = null;

@@ -1,19 +1,25 @@
 <div class="container">
-  <h1>Star Wars Character Search</h1>
-  <app-search-form (search)="onSearch($event)" (filter)="onFilter($event)"></app-search-form>
-  <app-character-list 
-    [characters]="(characters$ | async) || []" 
-    (selectCharacter)="onSelectCharacter($event)"
-    (toggleFavorite)="onToggleFavorite($event)">
-  </app-character-list>
-  <app-loading-indicator *ngIf="loading$ | async"></app-loading-indicator>
-  <app-character-details 
-    *ngIf="selectedCharacter" 
-    [character]="selectedCharacter">
-  </app-character-details>
-  <button (click)="exportToCSV()">Export to CSV</button>
-</div>
-<div *ngIf="error$ | async as error" class="error-message">
-  {{ error }}
-</div>
+  <mat-card class="characters-container">
+    <h1 mat-card-title>Star Wars Character Search</h1>
+    <mat-card>
+      <mat-card-content>
+        <app-search-form (search)="onSearch($event)" (filter)="onFilter($event)"></app-search-form>
+      </mat-card-content>
+    </mat-card>  
+    <app-character-list 
+      [characters]="(characters$ | async) || []" 
+      (selectCharacter)="onSelectCharacter($event)"
+      (toggleFavorite)="onToggleFavorite($event)">
+    </app-character-list>
+    <app-loading-indicator *ngIf="loading$ | async"></app-loading-indicator>
+    <app-character-details
+      *ngIf="selectedCharacter" 
+      [character]="selectedCharacter">
+    </app-character-details>
+    <button mat-raised-button color="primary" type="submit" (click)="exportToCSV()">Export to CSV</button>
+  </mat-card>
+  </div>
+    <div *ngIf="error$ | async as error" class="error-message">
+      {{ error }}
+  </div>
 <router-outlet></router-outlet>
