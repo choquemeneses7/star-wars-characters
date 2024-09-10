@@ -64,7 +64,7 @@ import { MatListModule } from '@angular/material/list';
     }
   `]
 })
-export class CharacterListComponent implements OnInit {
+export class CharacterListComponent {
   @Input() characters: Character[] = [];
   @Output() selectCharacter = new EventEmitter<any>();
   @Output() toggleFavorite = new EventEmitter<any>();
@@ -72,10 +72,6 @@ export class CharacterListComponent implements OnInit {
   selectedCharacter: Character | null = null;
 
   constructor(private favoritesService: FavoritesService) {}
-
-  ngOnInit(): void {
-    console.log("this.characters$: ", this.characters);
-  }
 
   selectACharacter(character: Character) {
     this.selectedCharacter = this.selectedCharacter === character ? null : character;
