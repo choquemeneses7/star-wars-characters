@@ -2,6 +2,18 @@
 
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 17.3.9.
 
+## Development Context
+This is an assessment and test project build with:
+- Angular 17
+- Material UI
+- Karma
+- NgRx
+- Lazy loading
+- Reactive forms
+
+Live demo: https://choquemeneses7.github.io/star-wars-characters
+
+
 ## Development server
 
 Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The application will automatically reload if you change any of the source files.
